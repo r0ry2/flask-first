@@ -1,18 +1,28 @@
 from flask import Flask, make_response, redirect, abort, current_app, request,g,render_template
+from flask_bootstrap import Bootstrap
+from flask_moment import Moment
+from datetime import datetime
+
+
 
 app = Flask(__name__)
+moment = Moment(app)
+bootstrap = Bootstrap(app)
 
 @app.route('/')
 def index():
     user_agent = request.headers.get('User-Agent')
     return '<p>Your browser is {}</p>'.format(user_agent)
 
-@app.route('/massage')
-def massage():
-    # بيانات تجريبية
-    comments = ["Nice post!", "Thanks for sharing.", "Very helpful.", "Awesome!"]
-    user = None
-    return render_template('index.html', user=user, comments=comments)
+@app.route('/time')
+def time():
+    return render_template(
+        'index.html',
+        user=None,
+        comments=['Great!', 'Nice work'],
+        current_time=datetime.utcnow()
+    )
+
 
 @app.route('/appname')
 def app_name():
@@ -55,6 +65,16 @@ def user(name):
     return render_template('user.html', name=name)
 
 
+
+# Custom 404 page
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('404.html'), 404
+
+# Custom 500 page
+@app.errorhandler(500)
+def internal_error(e):
+    return render_template('500.html'), 500
 
 
 
