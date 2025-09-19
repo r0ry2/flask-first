@@ -1,25 +1,18 @@
+{% extends "base.html" %}
 
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Home</title>
-</head>
-<body>
-    <!-- if statement -->
+{% block title %}Home{% endblock %}
+
+{% block content %}
     {% if user %}
         <h1>Hello, {{ user }}!</h1>
     {% else %}
         <h1>Hello, Stranger!</h1>
     {% endif %}
 
-    <p>Go to <a href="/user/John">User Page</a></p>
-
-    <!-- for loop -->
     <h2>Comments:</h2>
     <ul>
         {% for comment in comments %}
             <li>{{ comment }}</li>
         {% endfor %}
     </ul>
-</body>
-</html>
+{% endblock %}
