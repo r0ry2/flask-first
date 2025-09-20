@@ -1,17 +1,35 @@
-{% extends "base.html" %}
-
-{% block title %}Home{% endblock %}
-
 {% block content %}
+    <!-- رسالة ترحيب باسم المستخدم -->
     {% if user %}
         <h1>Hello, {{ user }}!</h1>
     {% else %}
-        <h1>Hello, Stranger!</h1>
+        <h1>Hello, Rema!</h1>
     {% endif %}
 
+    <!-- الوقت المحلي -->
     <p>Local time is: {{ moment(current_time).format('LLL') }}</p>
     <p>Last updated: {{ moment(current_time).fromNow(refresh=True) }}</p>
 
+    <!-- متصفح المستخدم -->
+    <p>Your browser is {{ user_agent }}</p>
+
+    <!-- الفورم لإدخال الاسم -->
+    <h2>Enter Your Name:</h2>
+    {% import "bootstrap/wtf.html" as wtf %}
+    {{ wtf.quick_form(form) }}
+
+    <!-- رسائل الفلاش -->
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <ul class="flashes">
+                {% for message in messages %}
+                    <li style="color: green;">{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+
+    <!-- التعليقات -->
     <h2>Comments:</h2>
     <ul>
         {% for comment in comments %}
